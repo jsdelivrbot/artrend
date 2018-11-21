@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "name": "artrend",
+  "version": "0.1.0",
+  "description": "Artrend web",
   "engines": {
     "node": "10.x"
   },
@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "ejs": "^2.5.6",
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "body-parser": "^1.18.3",
+    "mongoose": "^5.3.13"
   },
   "devDependencies": {
     "request": "^2.81.0",
@@ -20,12 +22,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://git.heroku.com/artrend.git"
   },
   "keywords": [
     "node",
     "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "author": "maxsurgai.com"
 }
