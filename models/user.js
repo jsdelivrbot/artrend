@@ -20,14 +20,12 @@ const userSchema = mongoose.Schema({
     //     type: Date,
     //     default: Date.now
     // }
-    name: String,
-    projects: [String]
+    name: String
 });
 
 const User = module.exports = mongoose.model('User', userSchema);
 
 module.exports.getUsers = function (callback, limit) {
-    console.log('GetUsers func');
     User.find(callback).limit(limit);
 };
 

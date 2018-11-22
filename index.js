@@ -27,7 +27,6 @@ app.get('/', function(req, res){
 });
 
 app.get('/api/users', function (req, res) {
-    console.log('Route get request');
     User.getUsers(function (err, users) {
         if (err) {
             throw err;
@@ -38,6 +37,7 @@ app.get('/api/users', function (req, res) {
 
 app.post('/api/users', function (req, res) {
     const user = req.body;
+    console.log(user);
     User.addUser(user, function (err, user) {
         if (err) {
             throw err;
