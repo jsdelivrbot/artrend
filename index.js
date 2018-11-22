@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 User = require('./models/user');
 
-mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds263172.mlab.com:63172/heroku_376zbtqs');
+mongoose.connect('mongodb://maxsurgai:QWEASDzxc123@ds263172.mlab.com:63172/heroku_376zbtqs');
 const db = mongoose.connection;
 
 //app.use(express.static(path.join(__dirname, 'public')))
