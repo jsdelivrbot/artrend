@@ -29,9 +29,10 @@ app
     })
 
     .get('/api/users', function (req, res) {
+        console.log('Route get request');
         User.getUsers(function (err, users) {
             if (err) {
-                throw  err;
+                throw err;
             }
             res.json(users);
         })
@@ -41,7 +42,7 @@ app
         const user = req.body;
         User.addUser(user, function (err, user) {
             if (err) {
-                throw  err;
+                throw err;
             }
             res.json(user);
         })
