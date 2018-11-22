@@ -34,4 +34,14 @@ app
         })
     })
 
+    .post('/api/users', function (req, res) {
+        const user = req.body
+        User.addUser(user, function (err, user) {
+            if (err) {
+                throw  err;
+            }
+            res.json(user)
+        })
+    })
+
     .listen(PORT, () => console.log(`Listening on ${ PORT }`))
