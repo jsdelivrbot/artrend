@@ -5,8 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
-//app.use(express.static(path.join(__dirname, 'public')))
 
 //MODELS
 User = require('./models/user');
