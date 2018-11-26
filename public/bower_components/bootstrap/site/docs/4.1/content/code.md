@@ -35,7 +35,7 @@ For indicating variables use the `<var>` tag.
 {% endcapture %}
 {% include example.html content=example %}
 
-## User input
+## Users input
 
 Use the `<kbd>` to indicate input that is typically entered via keyboard.
 

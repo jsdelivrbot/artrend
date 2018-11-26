@@ -5,9 +5,10 @@
  */
 
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const userSchema = mongoose.Schema({
+const UserSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.ObjectId,
         auto: true
@@ -36,32 +37,58 @@ const userSchema = mongoose.Schema({
     }
 });
 
-const User = module.exports = mongoose.model('User', userSchema);
-
-userSchema.pre('save', function (next) {
-    var user = this;
-    bcrypt.hash(user.password, 10, function (err, hash){
-        if (err) {
-            return next(err);
-        }
-        user.password = hash;
-        next();
-    })
+UserSchema.pre('save', function (next) {
+    const user = this;
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(user.password, salt, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+            user.password = hash;
+            next();
+        });
+    });
 });
 
-module.exports.getUsers = function (callback, limit) {
+UserSchema.methods.validatePassword = function validatePassword(password, callback) {
+    bcrypt.compare(password, this.password, function (err, result) {
+        return callback(result);
+    });
+};
+
+UserSchema.methods.generateJWT = function generateJWT() {
+    const today = new Date();
+    const expirationDate = new Date(today);
+    expirationDate.setDate(today.getDate() + 60);
+
+    return jwt.sign({
+        username: this.username,
+        id: this._id,
+        exp: parseInt(expirationDate.getTime() / 1000, 10),
+    }, 'secret');
+};
+
+UserSchema.methods.toAuthJSON = function toAuthJSON() {
+    return {
+        _id: this._id,
+        username: this.username,
+        token: this.generateJWT(),
+    };
+};
+
+UserSchema.statics.getUsers = function (callback, limit) {
     User.find(callback).limit(limit);
 };
 
-module.exports.getUserById = function (id, callback) {
+UserSchema.statics.getUserById = function (id, callback) {
     User.findById(id, callback);
 };
 
-module.exports.addUser = function (user, callback) {
+UserSchema.statics.addUser = function (user, callback) {
     User.create(user, callback);
 };
 
-module.exports.updateUser = function (id, user, options, callback) {
+UserSchema.statics.updateUser = function (id, user, options, callback) {
     const query = {_id: id};
     const update = {
         fullname: user.fullname,
@@ -72,27 +99,9 @@ module.exports.updateUser = function (id, user, options, callback) {
     User.findOneAndUpdate(query, update, options, callback);
 };
 
-module.exports.deleteUser = function (id, callback) {
+UserSchema.statics.deleteUser = function (id, callback) {
     const query = {_id: id};
     User.remove(query, callback);
 };
 
-module.exports.authenticate = function (username, password, callback) {
-    User.findOne({username: username})
-        .exec(function (err, user) {
-            if (err) {
-                return callback(err)
-            } else if (!user) {
-                var err = new Error('User not found.');
-                err.status = 401;
-                return callback(err);
-            }
-            bcrypt.compare(password, user.password, function (err, result) {
-                if (result === true) {
-                    return callback(null, user);
-                } else {
-                    return callback();
-                }
-            })
-        })
-};
+const User = module.exports = mongoose.model('User', UserSchema);

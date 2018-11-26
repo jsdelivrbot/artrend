@@ -5,32 +5,43 @@
   ~ Copyright (c) 2018. 
   -->
 
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>ARTrend</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 
-
 </head>
-<body class="text-center">
-<form class="form-signin" action="/" method="post">
+<body class="text-center" ng-controller="UsersController">
+
+<!--<div ng-controller="UsersController" id="userController">-->
+    <!--<div ng-init="getUsers()">-->
+        <!--<div ng-repeat="user in users">-->
+            <!--<p ng-show="user"><b>{{user.username}}</b> {{user._id}}</p>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<form class="form-signin" id="form-signin" ng-submit="logIn()">
     <h1 class="h3 mb-4 font-weight-light text-secondary">ARTrend</h1>
-    <label for="logUsername" class="sr-only">Username</label>
-    <input type="username" id="logUsername" name="logUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="logPassword" class="sr-only">Password</label>
-    <input type="password" id="logPassword" name="logPassword" class="form-control mb-3" placeholder="Password" required>
+    <label for="username" class="sr-only">Username</label>
+    <input type="username" ng-model="logInData.username" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" ng-model="logInData.password" id="password" name="password" class="form-control mb-3" placeholder="Password" required>
     <button class="btn btn-lg btn-dark btn-block mb-2" type="submit">Sign in</button>
     <a href="/guest" class="btn btn-lg btn-light btn-block mb-2">Guest</a>
-</form>
 
+    <pre>
+    {{ formData }}
+</pre>
+</form>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-route/angular-route.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="index.js"></script>
-<script src="controllers/users.js"></script>
+<script src="app.js"></script>
+<script src="js/controllers/angular/users.js"></script>
 </body>
 </html>

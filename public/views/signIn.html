@@ -5,28 +5,52 @@
   ~ Copyright (c) 2018. 
   -->
 
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>ARTrend</title>
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
 
-
 </head>
 <body class="text-center">
-<form class="form-signin" action="/" method="post">
-    <h1 class="h3 mb-4 font-weight-light text-secondary">fuck</h1>
-    <label for="inputUsername" class="sr-only">Username</label>
-    <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control mb-3" placeholder="Password" required>
+<div ng-controller="UsersController">
+    <div ng-init="getUsers()">
+        <div ng-repeat="user in users">
+            <p ng-show="user"><b>{{user.username}}</b> {{user._id}}</p>
+        </div>
+    </div>
+</div>
+<form class="form-signin" id="form-signin" action="/api/users/login">
+    <h1 class="h3 mb-4 font-weight-light text-secondary">ARTrend SignIn</h1>
+    <label for="logusername" class="sr-only">Username</label>
+    <input type="username" id="logusername" name="username" class="form-control" placeholder="Username" required autofocus>
+    <label for="logpassword" class="sr-only">Password</label>
+    <input type="password" id="logpassword" name="password" class="form-control mb-3" placeholder="Password" required>
     <button class="btn btn-lg btn-dark btn-block mb-2" type="submit">Sign in</button>
-    <a href="/" class="btn btn-lg btn-light btn-block mb-2">Guest</a>
+    <a href="/guest" class="btn btn-lg btn-light btn-block mb-2">Guest</a>
 </form>
 
-
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/angular/angular.min.js"></script>
+<script src="../bower_components/angular-route/angular-route.min.js"></script>
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../app.js"></script>
+<script src="../js/controllers/angular/users.js"></script>
+<script>
+    $("#form-signin").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        $.ajax({
+            type: 'POST',
+            data: form.serialize(),
+            url: form.attr('action'),
+            success: function(data) {
+                console.log('success');
+                console.log(JSON.stringify(data));
+            }
+        });
+    });
+</script>
 </body>
 </html>

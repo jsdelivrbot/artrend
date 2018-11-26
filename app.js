@@ -5,38 +5,34 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+global.appRoot = path.resolve(__dirname);
 
 //connect to MongoDB
+mongoose.promise = global.Promise;
 mongoose.connect('mongodb://localhost/artrend', { useNewUrlParser: true, useFindAndModify: false });
 const db = mongoose.connection;
 
-//handle mongo error
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-    // we're connected!
-});
-
+//Configure app
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public/'));
 app.use(session({
-    secret: 'artrend',
-    resave: true,
+    secret: 'secret',
+    cookie: { maxAge: 60000 },
+    resave: false,
     saveUninitialized: false,
     store: new MongoStore({
         mongooseConnection: db
     })
 }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// include routes
-var routes = require('./routes/router');
-app.use('/', routes);
+app.use('/', require('./routes'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('File Not Found');
+    var err = new Error('404: File Not Found');
     err.status = 404;
     next(err);
 });
@@ -48,4 +44,5 @@ app.use(function (err, req, res, next) {
     res.send(err.message);
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
