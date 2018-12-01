@@ -7,7 +7,7 @@
 const mongoose = require('mongoose');
 const passport = require('passport');
 const router = require('express').Router();
-const auth = require('../auth');
+const auth = require('./modules/auth');
 const User = mongoose.model('User');
 
 //POST new user route (optional, everyone has access)
@@ -77,22 +77,31 @@ router.post('/login', auth.optional, (req, res, next) => {
             });
         }
 
-        return res.status(400);
+        return res.status(401);
     })(req, res, next);
 });
 
 //GET current route (required, only authenticated users have access)
-router.get('/current', auth.required, (req, res, next) => {
-    const { payload: { id } } = req;
+router.get('/current', passport.authenticate('jwt', { session: false}), (req, res, next) => {
 
-    return User.findById(id)
-        .then((user) => {
-            if(!user) {
-                return res.sendStatus(400);
-            }
 
-            return res.json({ user: user.toAuthJSON() });
-        });
+    return res.json('Wokring');
+
+    const { headers: { authorization } } = req;
+
+    if (authorization) {
+        // return User.findById(id)
+        //     .then((user) => {
+        //         if(!user) {
+        //             return res.sendStatus(400);
+        //         }
+        //
+        //         return res.json({ user: user.toAuthJSON() });
+        //     });
+        return res.json('Wokring');
+    } else {
+        return res.status(403).send({success: false, msg: 'Unauthorized.'});
+    }
 });
 
 router.get('/', function (req, res) {

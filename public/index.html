@@ -14,24 +14,19 @@
 
 </head>
 <body class="text-center">
-<script src="js/libs/vue.min.js"></script>
-<!--<ul ng-init="getUsers()">-->
-<!--<li ng-repeat="user in users">-->
-<!--<p ng-show="user"><b>{{user.username}}</b> {{user._id}}</p>-->
-<!--</li>-->
-<!--</ul>-->
+<script src="js/libs/vue.min.js"></script>            
 
-<form class="form-signin" id="app">
-    <h1>{{appName}}</h1>
+<form class="form-signin" id="app" @submit.prevent="login">
+    <h1>ARTrend</h1>
     <label for="username">Username</label>
-    <input type="username" id="username" name="username" placeholder="Username" required autofocus>
+    <input v-model="username" type="username" id="username" name="username" placeholder="Username" required autofocus>
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Password" required>
+    <input v-model="password" type="password" id="password" name="password" placeholder="Password" required>
     <button type="submit">Sign in</button>
     <!--<a href="/guest" class="btn btn-lg btn-light btn-block mb-2">Guest</a>-->
 </form>
 
-<!--<script src="js/libs/angular.min.js"></script>-->
+<script src="js/libs/axios.min.js"></script>
 <script src="app.js"></script>
 <!--<script src="js/controllers/angular/users.js"></script>-->
 </body>
