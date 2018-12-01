@@ -23,10 +23,6 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    // passwordConf: {
-    //     type: String,
-    //     required: true,
-    // },
     fullname: String,
     phone: String,
     imgUrl: String,

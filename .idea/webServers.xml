@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3140e4c6-e8f1-4c40-bff1-75082bbd839f" name="FastComet" url="http://ftp.maxsurgai.com">
+        <fileTransfer host="ftp.maxsurgai.com" port="21" rootFolder="/artrend">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

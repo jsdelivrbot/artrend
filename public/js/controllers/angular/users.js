@@ -4,8 +4,6 @@
  * Copyright (c) 2018.
  */
 
-var myApp = angular.module('myApp', []);
-
 myApp.controller('UsersController', ['$scope', '$http', '$location', function($scope, $http, $location) {
     console.log('usersController loaded...');
 
@@ -16,18 +14,17 @@ myApp.controller('UsersController', ['$scope', '$http', '$location', function($s
             });
     };
 
-    $scope.logInData = {};
-
     $scope.logIn = function () {
         $http({
             url: "/api/users/login",
             method: "POST",
-            data: $.param($scope.logInData),
+            data: param($scope.logInData),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        }).then(function(data, status, headers, config) {
-            console.log('logged in...');
-            console.log(data);
-            $scope.status = status;
+        }).then(function success(response) {
+            $scope.status = response.status;
+            window.location.assign("/dashboard");
+        }, function error(response) {
+            $scope.status = response.status;
         });
     }
 

@@ -25,7 +25,7 @@ router
     // })
 
     .get('/dashboard', function (req, res) {
-        return res.sendFile(appRoot + '/public/views/dashboard.html')
+        return res.sendFile(publicPath + '/views/dashboard.html')
     })
 
     .get('/guest', function (req, res) {

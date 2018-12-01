@@ -4,15 +4,9 @@
  * Copyright (c) 2018.
  */
 
-var myApp = angular.module('myApp', []);
-
-myApp.config(["$locationProvider", function ($locationProvider) {
-
-    $locationProvider.hashPrefix('');
-    $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: false,
-        rewriteLinks: true
-    });
-
-}]);
+new Vue ({
+    el: '#app',
+    data: {
+        appName: 'ARTrend'
+    }
+});
